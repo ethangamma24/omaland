@@ -76,6 +76,25 @@ if not chunk then
   os.exit(1)
 end
 
+local sandbox = {
+  hl = hl,
+  o = o,
+  pairs = pairs,
+  ipairs = ipairs,
+  type = type,
+  tostring = tostring,
+  tonumber = tonumber,
+  string = string,
+  table = table,
+  math = math,
+  select = select,
+  pcall = pcall,
+  error = error,
+  next = next,
+  unpack = unpack or table.unpack,
+}
+setfenv(chunk, sandbox)
+
 local ok, runErr = pcall(chunk)
 if not ok then
   io.stderr:write(tostring(runErr))
